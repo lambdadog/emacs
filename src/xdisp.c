@@ -23539,6 +23539,15 @@ handle_line_prefix (struct it *it)
 	 iterator stack overflows.  So, don't wrap the prefix.  */
       it->line_wrap = TRUNCATE;
       it->avoid_cursor_p = true;
+
+      /* Increase lnum_pixel_width by width of prefix. This fixes
+	 inital tab offset. This is a poor way to calculate the
+	 width, but I believe the correct way would be to create a
+	 new iterator, insert the prefix, get current_x, then write
+	 the iterator into the top-level one, and that would
+	 increase complexity quite a lot.  */
+      struct face *face = FACE_FROM_ID (it->f, DEFAULT_FACE_ID);
+      it->lnum_pixel_width += face->font->space_width * SCHARS (prefix);
     }
 }
 
