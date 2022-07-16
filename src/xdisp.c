@@ -24010,6 +24010,16 @@ maybe_produce_line_number (struct it *it)
 	}
     }
 
+  /* Add an extra space after.  */
+  if (display_line_numbers_pad)
+    {
+      tem_it.face_id = DEFAULT_FACE_ID;
+      tem_it.c = tem_it.char_to_display = ' ';
+      tem_it.len = 1;
+      SET_TEXT_POS (tem_it.position, -1, -1);
+      PRODUCE_GLYPHS (&tem_it);
+    }
+
   inhibit_free_realized_faces = save_free_realized_faces;
 
   /* Record the width in pixels we need for the line number display.  */
@@ -36560,6 +36570,13 @@ It has no effect when set to 0, or when line numbers are not absolute.  */);
   display_line_numbers_offset = 0;
   DEFSYM (Qdisplay_line_numbers_offset, "display-line-numbers-offset");
   Fmake_variable_buffer_local (Qdisplay_line_numbers_offset);
+
+  DEFVAR_BOOL ("display-line-numbers-pad", display_line_numbers_pad,
+    doc: /* Non-nil means there is a space of padding between the line
+numbers and buffer text.  */);
+  display_line_numbers_pad = false;
+  DEFSYM (Qdisplay_line_numbers_pad, "display-line-numbers-pad");
+  Fmake_variable_buffer_local (Qdisplay_line_numbers_pad);
 
   DEFVAR_BOOL ("display-fill-column-indicator", display_fill_column_indicator,
     doc: /* Non-nil means display the fill column indicator.
